@@ -71,7 +71,8 @@ namespace HsMod
         public static ConfigEntry<Utils.CardState> maxCardState;
         public static ConfigEntry<bool> signatureFirst;
         public static ConfigEntry<bool> previewCardPlaySounds;
-
+        public static ConfigEntry<bool> checkCollDeckValidForMode;
+        public static ConfigEntry<bool> oldSignatureSave;
         public static ConfigEntry<KeyboardShortcut> keyTimeGearUp;
         public static ConfigEntry<KeyboardShortcut> keyTimeGearDown;
         public static ConfigEntry<KeyboardShortcut> keyTimeGearDefault;
@@ -232,7 +233,9 @@ namespace HsMod
             isOpponentGoldenCardShow = config.Bind(LocalizationManager.GetLangValue("isOpponentGoldenCardShow.label"), LocalizationManager.GetLangValue("isOpponentGoldenCardShow.name"), true, LocalizationManager.GetLangValue("isOpponentGoldenCardShow.description"));
             isSignatureCardStateEnable = config.Bind(LocalizationManager.GetLangValue("isSignatureCardStateEnable.label"), LocalizationManager.GetLangValue("isSignatureCardStateEnable.name"), true, LocalizationManager.GetLangValue("isSignatureCardStateEnable.description"));
             signatureFirst = config.Bind(LocalizationManager.GetLangValue("signatureFirst.label"), LocalizationManager.GetLangValue("signatureFirst.name"), false, LocalizationManager.GetLangValue("signatureFirst.description"));
-            previewCardPlaySounds  = config.Bind(LocalizationManager.GetLangValue("previewCardPlaySounds.label"), LocalizationManager.GetLangValue("previewCardPlaySounds.name"), true, LocalizationManager.GetLangValue("previewCardPlaySounds.description"));
+            previewCardPlaySounds = config.Bind(LocalizationManager.GetLangValue("previewCardPlaySounds.label"), LocalizationManager.GetLangValue("previewCardPlaySounds.name"), true, LocalizationManager.GetLangValue("previewCardPlaySounds.description"));
+            checkCollDeckValidForMode = config.Bind(LocalizationManager.GetLangValue("checkCollDeckValidForMode.label"), LocalizationManager.GetLangValue("checkCollDeckValidForMode.name"), true, LocalizationManager.GetLangValue("checkCollDeckValidForMode.description"));
+            oldSignatureSave = config.Bind(LocalizationManager.GetLangValue("oldSignatureSave.label"), LocalizationManager.GetLangValue("oldSignatureSave.name"), true, LocalizationManager.GetLangValue("oldSignatureSave.description"));
             goldenCardState = config.Bind(LocalizationManager.GetLangValue("goldenCardState.label"), LocalizationManager.GetLangValue("goldenCardState.name"), Utils.CardState.Default, LocalizationManager.GetLangValue("goldenCardState.description"));
             maxCardState = config.Bind(LocalizationManager.GetLangValue("maxCardState.label"), LocalizationManager.GetLangValue("maxCardState.name"), Utils.CardState.Default, LocalizationManager.GetLangValue("maxCardState.description"));
 

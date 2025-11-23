@@ -906,6 +906,79 @@ namespace HsMod
                 }
             }
 
+            [HarmonyPrefix]
+            [HarmonyPatch(typeof(DeckPickerTrayDisplay), "OnCustomDeckPressed")]
+            private static bool PatchOnCustomDeckPressed(DeckPickerTrayDisplay __instance,
+                ref CollectionDeckBoxVisual deckbox)
+            {
+                if (!checkCollDeckValidForMode.Value)
+                {
+                    return true;
+                }
+
+                if (SceneMgr.Get().GetMode() == SceneMgr.Mode.TOURNAMENT && Options.GetInRankedPlayMode())
+                {
+                    CollectionDeck collectionDeck = deckbox.GetCollectionDeck();
+                    if (collectionDeck == null)
+                    {
+                        return true;
+                    }
+
+                    // 如果选择的是标准卡组，且当前模式是狂野模式，则给出提示，防止误触
+                    if (collectionDeck.FormatType == PegasusShared.FormatType.FT_STANDARD &&
+                        (int)Options.GetFormatType() == 1)
+                    {
+                        __instance.ShowClickedStandardDeckInTwistPopup();
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            [HarmonyPrefix]
+            [HarmonyPatch(typeof(CollectionDeckBoxVisual), "CanSelectDeck")]
+            private static bool PatchCanSelectDeck(CollectionDeckBoxVisual __instance, ref bool __result)
+            {
+                if (!checkCollDeckValidForMode.Value)
+                {
+                    return true;
+                }
+
+                CollectionDeck collectionDeck = __instance.GetCollectionDeck();
+                if (SceneMgr.Get().GetMode() == SceneMgr.Mode.TOURNAMENT && Options.GetInRankedPlayMode() &&
+                    collectionDeck.FormatType == PegasusShared.FormatType.FT_STANDARD &&
+                    (int)Options.GetFormatType() == 1
+                    && collectionDeck.GetTotalInvalidCardCount((PegasusShared.FormatType)1) > 0)
+                {
+                    __result = false;
+                    return false;
+                }
+
+                return true;
+            }
+
+            [HarmonyPrefix]
+            [HarmonyPatch(typeof(CollectionDeck), "IsValidForModeAndFormat")]
+            private static bool PatchIsValidForModeAndFormat(CollectionDeck __instance, SceneMgr.Mode mode,
+                bool isRanked, PegasusShared.FormatType formatType, ref bool __result)
+            {
+                if (!checkCollDeckValidForMode.Value)
+                {
+                    return true;
+                }
+
+                if (SceneMgr.Get().GetMode() == SceneMgr.Mode.TOURNAMENT && Options.GetInRankedPlayMode() &&
+                    __instance.FormatType == PegasusShared.FormatType.FT_STANDARD && (int)Options.GetFormatType() == 1)
+                {
+                    __result = false;
+                    return false;
+                }
+
+                return true;
+            }
+            
+
             //OnApplicationFocus
             [HarmonyPrefix]
             [HarmonyPatch(typeof(Hearthstone.HearthstoneApplication), "OnApplicationFocus")]
@@ -1637,7 +1710,28 @@ namespace HsMod
                     GameUtils.PlayCardEffectDefSounds(collectionCardActor.PlayEffectDef);
                 }
             }
-            
+
+            [HarmonyPostfix]
+            [HarmonyPatch(typeof(ActorNames), "Initialize")]
+            private static void PatchActorNames(ref Dictionary<string, int> ___m_signatureFrames)
+            {
+                if (oldSignatureSave.Value)
+                {
+                    Dictionary<string, int> result = new Dictionary<string, int>();
+                    foreach (KeyValuePair<string, int> pair in ___m_signatureFrames)
+                    {
+                        if (pair.Value == 1)
+                        {
+                            // 9 新版随从的异画样式
+                            result.TryAdd(pair.Key, 9);
+                        }
+                        else
+                        {
+                            result.TryAdd(pair.Key, pair.Value);
+                        }
+                    }
+                }
+            }
             //设置下个对手、用于获取战网标签
             [HarmonyTranspiler]
             [HarmonyPatch(typeof(PlayerLeaderboardManager), "SetNextOpponent")]
