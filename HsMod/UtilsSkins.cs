@@ -59,6 +59,16 @@ namespace HsMod
                                     ___m_entity.SetTag(GAME_TAG.PREMIUM, TAG_PREMIUM.DIAMOND);
                                     ___m_entity.SetTag(GAME_TAG.HAS_DIAMOND_QUALITY, true);
                                 }
+
+                                // 异画优先
+                                if (___m_entity.HasTag(GAME_TAG.HAS_SIGNATURE_QUALITY) &&
+                                    isSignatureCardStateEnable.Value && signatureFirst.Value)
+                                {
+                                    ___m_entity.SetTag(GAME_TAG.PREMIUM, TAG_PREMIUM.SIGNATURE);
+                                    __result = TAG_PREMIUM.SIGNATURE;
+                                    return false;
+                                }
+
                                 __result = TAG_PREMIUM.DIAMOND;
                                 return false;
                             }

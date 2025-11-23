@@ -69,6 +69,8 @@ namespace HsMod
         public static ConfigEntry<bool> isSignatureCardStateEnable;
         public static ConfigEntry<Utils.CardState> goldenCardState;
         public static ConfigEntry<Utils.CardState> maxCardState;
+        public static ConfigEntry<bool> signatureFirst;
+        public static ConfigEntry<bool> previewCardPlaySounds;
 
         public static ConfigEntry<KeyboardShortcut> keyTimeGearUp;
         public static ConfigEntry<KeyboardShortcut> keyTimeGearDown;
@@ -229,6 +231,8 @@ namespace HsMod
             receiveEnemyEmoteLimit = config.Bind(LocalizationManager.GetLangValue("receiveEnemyEmoteLimit.label"), LocalizationManager.GetLangValue("receiveEnemyEmoteLimit.name"), -1, new ConfigDescription(LocalizationManager.GetLangValue("receiveEnemyEmoteLimit.description"), new AcceptableValueRange<int>(-1, 100)));
             isOpponentGoldenCardShow = config.Bind(LocalizationManager.GetLangValue("isOpponentGoldenCardShow.label"), LocalizationManager.GetLangValue("isOpponentGoldenCardShow.name"), true, LocalizationManager.GetLangValue("isOpponentGoldenCardShow.description"));
             isSignatureCardStateEnable = config.Bind(LocalizationManager.GetLangValue("isSignatureCardStateEnable.label"), LocalizationManager.GetLangValue("isSignatureCardStateEnable.name"), true, LocalizationManager.GetLangValue("isSignatureCardStateEnable.description"));
+            signatureFirst = config.Bind(LocalizationManager.GetLangValue("signatureFirst.label"), LocalizationManager.GetLangValue("signatureFirst.name"), false, LocalizationManager.GetLangValue("signatureFirst.description"));
+            previewCardPlaySounds  = config.Bind(LocalizationManager.GetLangValue("previewCardPlaySounds.label"), LocalizationManager.GetLangValue("previewCardPlaySounds.name"), true, LocalizationManager.GetLangValue("previewCardPlaySounds.description"));
             goldenCardState = config.Bind(LocalizationManager.GetLangValue("goldenCardState.label"), LocalizationManager.GetLangValue("goldenCardState.name"), Utils.CardState.Default, LocalizationManager.GetLangValue("goldenCardState.description"));
             maxCardState = config.Bind(LocalizationManager.GetLangValue("maxCardState.label"), LocalizationManager.GetLangValue("maxCardState.name"), Utils.CardState.Default, LocalizationManager.GetLangValue("maxCardState.description"));
 

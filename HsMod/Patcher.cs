@@ -1625,7 +1625,19 @@ namespace HsMod
             {
                 return Utils.GetPremiumType(ref ___m_entity, ref __result);
             }
-
+            
+            // 收藏预览卡牌时播放入场音效
+            [HarmonyPrefix]
+            [HarmonyPatch(typeof(CraftingManager), "EnterCraftMode")]
+            private static void PatchEnterCraftMode(CraftingManager __instance, Actor collectionCardActor)
+            {
+                if (previewCardPlaySounds.Value && collectionCardActor != null && collectionCardActor.HasCardDef &&
+                    collectionCardActor.PlayEffectDef != null)
+                {
+                    GameUtils.PlayCardEffectDefSounds(collectionCardActor.PlayEffectDef);
+                }
+            }
+            
             //设置下个对手、用于获取战网标签
             [HarmonyTranspiler]
             [HarmonyPatch(typeof(PlayerLeaderboardManager), "SetNextOpponent")]
